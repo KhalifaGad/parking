@@ -14,7 +14,7 @@ const carSchema = mongoose.Schema({
     required: true,
     unique: true,
   },
-  user: {
+  employee: {
     type: mongoose.Types.ObjectId,
     ref: "employee",
     require: true,
