@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import { errorHandler } from "./middlewares";
 
 class Server {
   constructor(port) {
@@ -30,6 +31,8 @@ class Server {
           return callback(null, options);
         })
       );
+
+    this.app.use(errorHandler);
 
     this.app.use((req, res, _next) => {
       if (!req.route) res.status(404).send("Not found!");
