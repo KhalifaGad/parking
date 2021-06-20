@@ -35,6 +35,12 @@ class Server {
       if (!req.route) res.status(404).send("Not found!");
     });
   }
+
+  start() {
+    this.app.listen(this.port, () => {
+      console.log(`Server has started on port: ${this.port}`);
+    });
+  }
 }
 
 export default Server;
