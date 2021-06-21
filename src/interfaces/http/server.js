@@ -17,23 +17,29 @@ class Server {
       .use(express.json())
       .disable("x-powered-by")
       .use(
-        cors((req, callback) => {
+        cors(function (req, callback) {
           let options = {
             credentials: true,
-            origin: false,
+            origin: true,
           };
+
+          let errorMessage = "Not allowed origin";
+
           const origin = req.header("Origin");
           const xOrigin = req.header("x-origin");
 
-          if (whitelist.indexOf(origin) !== -1) options.origin = true;
-          else if (origin === null && xOrigin === "mobile")
-            options.origin = true;
+          if (
+            whitelist.indexOf(origin) !== -1 ||
+            (!origin && xOrigin === "mobile")
+          ) {
+            errorMessage = null;
+          }
 
-          return callback(null, options);
+          return callback(errorMessage, options);
         })
       );
 
-    this.app.use("api/v1", router);
+    this.app.use("/api/v1", router);
 
     this.app.use(errorHandler);
 

@@ -7,25 +7,32 @@ class BaseRepo {
     return await this._model.countDocuments({ ...args });
   }
 
-  async create(item, { leaned = true }) {
+  async create(item, { leaned } = { leaned: true }) {
     return leaned
       ? await this._model.create(item).then((item) => item.toObject())
       : await this._model.create(item);
   }
 
-  async findById(id, { leaned = true, populateFields = [] }) {
+  async findById(
+    id,
+    { leaned = true, populateFields } = { leaned: true, populateFields: [] }
+  ) {
+    if (!populateFields) populateFields = [];
     if (leaned)
       return this._model.findById(id).populate(populateFields.join(" ")).lean();
     return this._model.findById(id).populate(populateFields.join(" "));
   }
 
-  async findOneBy(args, { leaned = true, populateFields: [] }) {
+  async findOneBy(
+    args,
+    { leaned, populateFields } = { leaned: true, populateFields: [] }
+  ) {
     if (leaned)
       return this._model
         .findOne({ ...args })
         .populate(populateFields.join(" "))
         .lean();
-    return this._model.findOne({ ...args }).populate(populateFields.join(" "));
+    return this._model.findOne({ ...args });
   }
 
   async update(id, data) {

@@ -7,7 +7,7 @@ import { carsValidationSchemas } from "../validations";
 const carsRouter = Router();
 
 carsRouter
-  .use("/")
+  .route("/")
   .get(asyncHandler(CarsController.list("listCars", ["brand", "model"])))
   .post(
     validate(carsValidationSchemas.addCarSchema),
@@ -15,13 +15,12 @@ carsRouter
     asyncHandler(CarsController.create)
   );
 
-carsRouter.use(
-  "/:plateNumber",
-  asyncHandler(CarsController.get("getCar", "plateNumber"))
-);
+carsRouter
+  .route("/:plateNumber")
+  .get(asyncHandler(CarsController.get("getCar", "plateNumber")));
 
 carsRouter
-  .use("/:id", isValidMongoId("query", "id"))
+  .route("/:id", isValidMongoId("query", "id"))
   .put(
     isValidMongoId("body", "employee", false),
     validate(carsValidationSchemas.editCarSchema),

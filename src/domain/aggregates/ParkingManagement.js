@@ -68,7 +68,12 @@ class ParkingManagement {
 
   async deleteCar(id) {
     try {
-      await this.carRepo.delete(id);
+      const car = await this.carRepo.findById(id, {
+        leaned: false,
+        populateFields: [],
+      });
+      if (!car) return true;
+      await car.deleteOne();
       return { data: true };
     } catch (err) {
       return { err };
@@ -103,7 +108,7 @@ class ParkingManagement {
         { leaned: false, populateFields: ["car"] }
       );
       card.credit = credit;
-      await card.save();
+      await card.save({ validateBeforeSave: false });
       return { data: card.toObject() };
     } catch (err) {
       return { err };

@@ -19,7 +19,7 @@ class RegisterCarService {
       await ParkingManagement.deleteCar(car.data._id);
       return card;
     }
-    return { data: { card, car } };
+    return { data: { card: card.data, car: car.data } };
   }
 }
 

@@ -1,7 +1,5 @@
-import LocaleKeys from "@locales";
-
 export const SERVER_ERROR = {
   statusCode: 500,
   error: "Server Error",
-  message: LocaleKeys.SERVER_ERROR,
+  message: "Its not you, its us, we are working on this now :(",
 };

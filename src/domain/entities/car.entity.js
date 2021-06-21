@@ -29,14 +29,6 @@ carSchema.path("plateNumber").validate(async (value) => {
   return !carsCount;
 }, "Car already exist!");
 
-carSchema.pre("remove", async function (next) {
-  const card = await CardRepo.findOneBy({ car: this._id });
-  if (card) {
-    return CardRepo.delete(card._id);
-  }
-  next();
-});
-
 carSchema.pre("deleteOne", { document: true, query: false }, async function (
   next
 ) {
@@ -47,6 +39,6 @@ carSchema.pre("deleteOne", { document: true, query: false }, async function (
   next();
 });
 
-const CarModel = mongoose.model("Car", adminSchema);
+const CarModel = mongoose.model("Car", carSchema);
 
 export { CarModel };

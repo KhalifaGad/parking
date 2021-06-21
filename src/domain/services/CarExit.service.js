@@ -13,9 +13,16 @@ class CarExistService {
       );
       const lastExit = card.lastExit;
       if (!lastExit) return await this.dispatchExitEvent(card);
+
       let diff = (lastExit.getTime() - new Date().getTime()) / 1000;
       diff /= 60;
-      if (diff <= 1) return { data: await card.populate("car").toObject() };
+
+      if (diff <= 1 && card.exitAttempts < 2) {
+        card.exitAttempts = (card.exitAttempts ?? 0) + 1;
+        await card.save({ validateBeforeSave: false });
+        console.log(card.populated());
+        return { data: await card.populate("car").execPopulate() };
+      }
       return await this.dispatchExitEvent(card);
     } catch (err) {
       return { err };
@@ -25,9 +32,10 @@ class CarExistService {
   async dispatchExitEvent(card) {
     card.lastExit = new Date();
     card.credit = card.credit - 4;
+    card.exitAttempts = 1;
     try {
-      await card.save();
-      return { data: await card.populate("car").toObject() };
+      await card.save({ validateBeforeSave: false });
+      return { data: await card.populate("car").execPopulate() };
     } catch (err) {
       return { err };
     }

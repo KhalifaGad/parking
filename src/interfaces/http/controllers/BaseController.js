@@ -42,7 +42,7 @@ class BaseController {
         req.body
       );
       if (err) next(err);
-      return res.status(204).json(data);
+      return res.status(200).json(data);
     };
   }
 
@@ -51,8 +51,8 @@ class BaseController {
       const { err } = await this.aggregate[functionName](
         req.params[queryParam]
       );
-      if (err) next(err);
-      return res.status(202);
+      if (err) return next(err);
+      return res.status(202).send();
     };
   }
 }

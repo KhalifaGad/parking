@@ -15,10 +15,14 @@ const cardSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  exitAttempts: {
+    type: Number,
+    default: 0,
+  },
   lastExit: Date,
 });
 
-cardSchema.path("plateNumber").validate(async (value) => {
+cardSchema.path("cardId").validate(async (value) => {
   const cardsCount = await mongoose.models.Card.countDocuments({
     cardId: value,
   });

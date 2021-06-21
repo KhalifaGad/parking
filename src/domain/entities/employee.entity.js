@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const employeeSchema = mongoose.Schema({
   name: {
-    type: string,
+    type: String,
     required: true,
   },
   position: {
