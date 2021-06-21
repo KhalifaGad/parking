@@ -13,4 +13,6 @@ It maybe sounds like over engineering for a small API like this, but I tried to 
 4. `npm run start` || `npm run dev` ( node || nodemon ).
 
 ***Postman collection:*** https://www.getpostman.com/collections/b040483c2dc33a4f5e87
- 
+
+
+***The ERD diagram is attached with the project files, whoever the DB is so simple to surve the task purpose*** 
