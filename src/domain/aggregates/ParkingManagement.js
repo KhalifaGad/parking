@@ -49,6 +49,32 @@ class ParkingManagement {
     }
   }
 
+  async updateCar(id, { brand, model, employee }) {
+    if (employee) {
+      const checkEmployee = await EmployeeManagement.isEmployeeExist(
+        data.employee
+      );
+      if (checkEmployee.err || !checkEmployee.data)
+        return { err: checkEmployee.err || "Wrong employee id" };
+    }
+    const data = JSON.parse(JSON.stringify({ brand, model, employee }));
+    try {
+      const car = await this.carRepo.update(id, data);
+      return { data: car.toObject() };
+    } catch (err) {
+      return { err };
+    }
+  }
+
+  async deleteCar(id) {
+    try {
+      await this.carRepo.delete(id);
+      return { data: true };
+    } catch (err) {
+      return { err };
+    }
+  }
+
   async createCard(data) {
     try {
       const card = await this.cardRepo.create(data, { leaned: true });
@@ -60,11 +86,34 @@ class ParkingManagement {
 
   async getCard(cardId) {
     try {
-      const card = this.cardRepo.findOneBy(
+      const card = await this.cardRepo.findOneBy(
         { cardId },
         { leaned: true, populateFields: ["car"] }
       );
       return { data: card };
+    } catch (err) {
+      return { err };
+    }
+  }
+
+  async updateCardCredit(cardId, credit) {
+    try {
+      const card = await this.cardRepo.findOneBy(
+        { cardId },
+        { leaned: false, populateFields: ["car"] }
+      );
+      card.credit = credit;
+      await card.save();
+      return { data: card.toObject() };
+    } catch (err) {
+      return { err };
+    }
+  }
+
+  async updateCard(id, data) {
+    try {
+      const car = await this.carRepo.update(id, data);
+      return { data: car.toObject() };
     } catch (err) {
       return { err };
     }

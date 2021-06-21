@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { errorHandler } from "./middlewares";
+import { router } from "./routes";
 
 class Server {
   constructor(port) {
@@ -31,6 +32,8 @@ class Server {
           return callback(null, options);
         })
       );
+
+    this.app.use("api/v1", router);
 
     this.app.use(errorHandler);
 

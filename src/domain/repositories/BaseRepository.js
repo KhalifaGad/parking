@@ -25,7 +25,7 @@ class BaseRepo {
         .findOne({ ...args })
         .populate(populateFields.join(" "))
         .lean();
-    return this._model.findOne({ ...args });
+    return this._model.findOne({ ...args }).populate(populateFields.join(" "));
   }
 
   async update(id, data) {

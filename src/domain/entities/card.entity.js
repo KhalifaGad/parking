@@ -15,7 +15,7 @@ const cardSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  lastExist: Date,
+  lastExit: Date,
 });
 
 cardSchema.path("plateNumber").validate(async (value) => {
