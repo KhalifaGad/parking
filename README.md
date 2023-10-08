@@ -15,4 +15,4 @@ It maybe sounds like over engineering for a small API like this, but I tried to 
 ***Postman collection:*** https://www.getpostman.com/collections/b040483c2dc33a4f5e87
 
 
-***The ERD diagram is attached with the project files, whoever the DB is so simple to serve the task purpose*** 
+***The ERD diagram is attached with the project files, however the DB is so simple to serve the task purpose*** 
